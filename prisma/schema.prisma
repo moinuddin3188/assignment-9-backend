@@ -1,0 +1,189 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  role           UserRole @default(user)
+  password       String
+  firstName      String
+  lastName       String
+  contactNo      String?
+  gender         String?
+  address        String?
+  faceBookIdLink String?
+  instaIdLink    String?
+  whatsAppNumber String?
+  profile        String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  reviews   Review[]
+  bookings  Booking[]
+  employee  Employee?
+
+  @@map("users")
+}
+
+model Employee {
+  id                     String   @id @default(uuid())
+  hireDate               DateTime
+  emergencyContactNumber String
+  dateOfBirth            String?
+  salary                 Int
+  isActive               Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("employees")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Service   Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  status      ServiceStatus @default(AVAILABLE)
+  tags        String[]
+  image       String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  reviews  Review[]
+  bookings Booking[]
+
+  @@map("services")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  @@map("reviews")
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  bookingDate String
+  contactNo   String
+  address     String
+  status      BookingStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  productDetail  String
+  problem        String
+  request        String
+  faceBookIdLink String?
+  whatsAppNumber String?
+  paymentStatus  Boolean
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  @@map("bookings")
+}
+
+model FAQ {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faqs")
+}
+
+model Blog {
+  id           String        @id @default(uuid())
+  title        String
+  content      String
+  author       String
+  status       BlogStatus    @default(PENDING)
+  publishDate  DateTime?
+  tags         String[]
+  cover        String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  blogComments BlogComment[]
+
+  @@map("blogs")
+}
+
+model BlogComment {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blogId String
+  blog   Blog   @relation(fields: [blogId], references: [id])
+
+  @@map("blog_comments")
+}
+
+enum UserRole {
+  admin
+  super_admin
+  employee
+  user
+}
+
+enum ServiceStatus {
+  COMING_SOON
+  AVAILABLE
+  NOT_AVAILABLE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  COMPLETED
+}
+
+enum BlogStatus {
+  PENDING
+  PUBLISHED
+  DISABLED
+}
