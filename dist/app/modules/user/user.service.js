@@ -62,7 +62,6 @@ const createAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
 const createSuperAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const hashedPassword = yield (0, user_utils_1.hashPassword)(data.password);
     data['password'] = hashedPassword;
-    data['role'] = user_1.ENUM_USER_ROLE.SUPER_ADMIN;
     const newAdmin = yield prisma_1.default.user.create({
         data,
     });

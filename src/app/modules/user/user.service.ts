@@ -51,7 +51,6 @@ const createAdmin = async (data: User): Promise<Omit<User, 'password'>> => {
 const createSuperAdmin = async (data: User): Promise<Omit<User, 'password'>> => {
   const hashedPassword = await hashPassword(data.password);
   data['password'] = hashedPassword;
-  data['role'] = ENUM_USER_ROLE.SUPER_ADMIN;
 
   const newAdmin = await prisma.user.create({
     data,
