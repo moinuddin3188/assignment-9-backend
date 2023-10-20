@@ -51,6 +51,16 @@ const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
+const createSuperAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const adminData = __rest(req.body, []);
+    const result = yield user_service_1.UserService.createSuperAdmin(adminData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Super Admin created successfully',
+        data: result,
+    });
+}));
 const createEmployee = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = __rest(req.body, []);
     const result = yield user_service_1.UserService.createEmployee(data);
@@ -118,6 +128,7 @@ const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 exports.UserController = {
     createUser,
     createAdmin,
+    createSuperAdmin,
     createEmployee,
     getSingleUser,
     getAllUsers,

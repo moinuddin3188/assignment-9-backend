@@ -59,6 +59,20 @@ const createAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const { password } = newAdmin, others = __rest(newAdmin, ["password"]);
     return others;
 });
+const createSuperAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const hashedPassword = yield (0, user_utils_1.hashPassword)(data.password);
+    data['password'] = hashedPassword;
+    data['role'] = user_1.ENUM_USER_ROLE.SUPER_ADMIN;
+    const newAdmin = yield prisma_1.default.user.create({
+        data,
+    });
+    if (!newAdmin) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Failed to create super Admin');
+    }
+    // eslint-disable-next-line no-unused-vars
+    const { password } = newAdmin, others = __rest(newAdmin, ["password"]);
+    return others;
+});
 const createEmployee = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const { user, employee } = data;
     const hashedPassword = yield (0, user_utils_1.hashPassword)(user.password);
@@ -176,6 +190,7 @@ const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
 exports.UserService = {
     createUser,
     createAdmin,
+    createSuperAdmin,
     createEmployee,
     getSingleUser,
     getAllUsers,

@@ -16,6 +16,7 @@ const router = express_1.default.Router();
 router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), user_controller_1.UserController.getAllUsers);
 router.post('/create-user', (0, validateRequest_1.default)(user_validation_1.UserValidation.createUser), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), user_controller_1.UserController.createUser);
 router.post('/create-admin', (0, validateRequest_1.default)(admin_validation_1.AdminValidation.createAdmin), (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN), user_controller_1.UserController.createAdmin);
+router.post('/create-super-admin', (0, validateRequest_1.default)(admin_validation_1.AdminValidation.createAdmin), user_controller_1.UserController.createAdmin);
 router.post('/create-employee', (0, validateRequest_1.default)(employee_validation_1.EmployeeValidation.createEmployee), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), user_controller_1.UserController.createEmployee);
 router.get('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), user_controller_1.UserController.getSingleUser);
 router.patch('/:id', (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUser), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), user_controller_1.UserController.updateUser);
