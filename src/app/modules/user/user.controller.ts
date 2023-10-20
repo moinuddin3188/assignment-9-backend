@@ -34,6 +34,19 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createSuperAdmin = catchAsync(async (req: Request, res: Response) => {
+  const { ...adminData } = req.body;
+
+  const result = await UserService.createSuperAdmin(adminData);
+
+  sendResponse<Omit<User, 'password'>>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Super Admin created successfully',
+    data: result,
+  });
+});
+
 const createEmployee = catchAsync(async (req: Request, res: Response) => {
   const { ...data } = req.body;
 
@@ -113,6 +126,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
 export const UserController = {
   createUser,
   createAdmin,
+  createSuperAdmin,
   createEmployee,
   getSingleUser,
   getAllUsers,

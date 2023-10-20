@@ -30,6 +30,12 @@ router.post(
 );
 
 router.post(
+  '/create-super-admin',
+  validateRequest(AdminValidation.createAdmin),
+  UserController.createAdmin
+);
+
+router.post(
   '/create-employee',
   validateRequest(EmployeeValidation.createEmployee),
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
