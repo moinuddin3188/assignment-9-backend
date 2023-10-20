@@ -62,7 +62,6 @@ const getAllFromDB = (filters, options) => __awaiter(void 0, void 0, void 0, fun
             })),
         });
     }
-    console.log(JSON.stringify(andConditions));
     if (Object.keys(filterData).length > 0) {
         andConditions.push({
             AND: Object.keys(filterData).map(key => {
@@ -106,7 +105,6 @@ const getAllFromDB = (filters, options) => __awaiter(void 0, void 0, void 0, fun
             }),
         });
     }
-    console.log(JSON.stringify(andConditions));
     const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
     const result = yield prisma_1.default.service.findMany({
         where: whereConditions,

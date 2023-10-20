@@ -52,8 +52,6 @@ const getAllFromDB = async (
     });
   }
 
-  console.log(JSON.stringify(andConditions));
-
   if (Object.keys(filterData).length > 0) {
     andConditions.push({
       AND: Object.keys(filterData).map(key => {
@@ -93,7 +91,7 @@ const getAllFromDB = async (
       }),
     });
   }
-  console.log(JSON.stringify(andConditions));
+
   const whereConditions: Prisma.ServiceWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
