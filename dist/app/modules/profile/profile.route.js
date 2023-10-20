@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProfileRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const user_1 = require("../../../enums/user");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const admin_validation_1 = require("../admin/admin.validation");
+const employee_validation_1 = require("../employee/employee.validation");
+const user_validation_1 = require("../user/user.validation");
+const profile_controller_1 = require("./profile.controller");
+const router = express_1.default.Router();
+router.get('/my-profile', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.EMPLOYEE, user_1.ENUM_USER_ROLE.SUPER_ADMIN), profile_controller_1.ProfileController.getMyProfile);
+router.patch('/update-user-profile', (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUser), (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), profile_controller_1.ProfileController.updateUserProfile);
+router.patch('/update-admin-profile', (0, validateRequest_1.default)(admin_validation_1.AdminValidation.updateAdmin), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), profile_controller_1.ProfileController.updateAdminProfile);
+router.patch('/update-super-admin-profile', (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUser), (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN), profile_controller_1.ProfileController.updateSuperAdminProfile);
+router.patch('/update-employee-profile', (0, validateRequest_1.default)(employee_validation_1.EmployeeValidation.updateEmployee), (0, auth_1.default)(user_1.ENUM_USER_ROLE.EMPLOYEE), profile_controller_1.ProfileController.updateEmployeeProfile);
+exports.ProfileRoutes = router;

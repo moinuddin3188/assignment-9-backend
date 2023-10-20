@@ -6,9 +6,6 @@ const createBooking = z.object({
     bookingDate: z.string({
       required_error: 'Booking Date is required',
     }),
-    bookingTime: z.string({
-      required_error: 'Booking Time is required',
-    }),
     contactNo: z.string({
       required_error: 'ContactNo is required',
     }),
@@ -27,7 +24,6 @@ const createBooking = z.object({
 const updateBooking = z.object({
   body: z.object({
     bookingDate: z.string(),
-    bookingTime: z.string(),
     contactNo: z.string(),
     address: z.string(),
     userId: z.string(),
