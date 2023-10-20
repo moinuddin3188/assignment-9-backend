@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 
-app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cors({origin: "https://jewelery.onrender.com", credentials: true}));
 app.use(cookieParser());
 
 //parser
